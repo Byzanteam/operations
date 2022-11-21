@@ -41,7 +41,7 @@ spec:
       # 允许重新定义或者添加发往后端服务器的请求头
       Host: rs.cdyoue.com
     customResponseHeaders:
-      # 用于在请求要求包含 credentials时，告知浏览器是否可以将对请求的响应暴露给前端 JavaScript 代码。
+      # 用于在请求要求包含 credentials 时，告知浏览器是否可以将对请求的响应暴露给前端 JavaScript 代码。
       Access-Control-Allow-Credentials: "true"
       # 用于 preflight request（预检请求）
       Access-Control-Allow-Headers: '*'
