@@ -38,11 +38,16 @@ metadata:
 spec:
   headers:
     customRequestHeaders:
+      # 允许重新定义或者添加发往后端服务器的请求头
       Host: rs.cdyoue.com
     customResponseHeaders:
+      # 用于在请求要求包含 credentials时，告知浏览器是否可以将对请求的响应暴露给前端 JavaScript 代码。
       Access-Control-Allow-Credentials: "true"
+      # 用于 preflight request（预检请求）
       Access-Control-Allow-Headers: '*'
+      # 对 preflight request（预检请求）的应答中明确了客户端所要访问的资源允许使用的方法或方法列表。
       Access-Control-Allow-Methods: '*'
+      # 服务器默认是不被允许跨域的。配置`Access-Control-Allow-Origin *`后，表示服务器可以接受所有的请求源（Origin）,即接受所有跨域的请求。
       Access-Control-Allow-Origin: '*'
 ```
 
@@ -59,6 +64,7 @@ metadata:
   name: api-v4-svc
   namespace: default
 spec:
+  # 将服务映射到 DNS 名称
   externalName: rs.cdyoue.com
   type: ExternalName
 ```
