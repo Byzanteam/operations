@@ -1,0 +1,29 @@
+---
+- name: 创建 prometheus network
+  community.docker.docker_network:
+    name: "{{ prometheus_network_name }}"
+
+- name: Create grafana directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0777"
+  with_items:
+    - "{{ docker_compose_dir }}"
+    - "{{ grafana_config_dir }}"
+    - "{{ grafana_data_dir }}"
+
+- name: Copy the grafana configuration files
+  ansible.posix.synchronize:
+  src: files/grafana
+  dest: "{{ grafana_config_dir}}"
+
+- name: 将 docker-compose 文件拷贝到主机指定位置
+  ansible.builtin.template:
+    src: templates/docker-compose.yml.j2
+    dest: "{{ docker_compose_dir }}/grafana-docker-compose.yml"
+
+- name: docker 启动 grafana
+  ansible.builtin.shell:
+    cmd: docker-compose -f {{ docker_compose_dir }}/grafana-docker-compose.yml up -d
+  register: docker-compose-results

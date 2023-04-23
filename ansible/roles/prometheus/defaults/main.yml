@@ -1,0 +1,43 @@
+---
+# docker-compose configuration
+prometheus_network_name: prometheus
+docker_compose_dir: /opt/prometheus 
+
+# prometheus in docker comfile configuration
+prometheus_web_listen_address: ""
+prometheus_storage_retention: "30d"
+# [EXPERIMENTAL] Maximum number of bytes that can be stored for blocks. Units
+# supported: KB, MB, GB, TB, PB.
+prometheus_storage_retention_size: "1GB"
+
+# prometheus config and data dir
+prometheus_config_dir: /opt/prometheus/config/prometheus
+prometheus_data_dir: /opt/prometheus/data/prometheus
+
+# prometheus scrape_configs
+prometheus_scrape_configs:
+  - job_name: "prometheus"
+    metrics_path: "/metrics"
+    static_configs:
+      - targets:
+          - "{{ ansible_fqdn | default(ansible_host) | default('localhost') }}:9090"
+
+# prometheus alertmanager configs
+prometheus_alertmanager_configs: ""
+#   alertmanagers:
+#     - static_configs:
+#       - targets:
+#         - alertmanager:9093
+
+# prometheus alert rules
+prometheus_alert_rules: []
+# - name: example rules
+#   rules:
+#   - alert: rule1
+#     expr: 'probe_success == 0'
+#     for: 1m
+#     labels:
+#       severity: emergency
+#     annotations:
+#       template: '{% raw %}**{{ $labels.serviceName }}**{{ $labels.instance }} 接口故障, 请及时处理！{% endraw %}'
+#       resolvedTitleTemplate: '{% raw %}**{{ $labels.serviceName }}**{{ $labels.instance }} 接口已恢复.{% endraw %}'

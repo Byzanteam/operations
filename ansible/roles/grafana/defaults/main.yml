@@ -1,0 +1,10 @@
+---
+# docker-compose configuration
+prometheus_network_name: prometheus
+docker_compose_dir: /opt/prometheus 
+
+# docker compose file config for grafana
+grafana_host: "{{ ansible_default_ipv4.address | default('127.0.0.1')}}"
+grafana_port: 3000
+grafana_config_dir: /opt/prometheus/config/grafana
+grafana_data_dir: /opt/prometheus/data/grafana

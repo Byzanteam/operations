@@ -1,0 +1,19 @@
+#jinja2: trim_blocks: True, lstrip_blocks: True
+{{ ansible_managed | comment }}
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  {{ prometheus_scrape_configs | to_nice_yaml(indent=2,sort_keys=False) | indent(2,False) }}
+
+{%- if prometheus_alertmanager_configs %}
+alerting:
+  {{ prometheus_alertmanager_configs | to_nice_yaml(indent=2,sort_keys=False) | indent(2,False) }}
+{%- endif%}
+
+{%- if prometheus_alert_rules %}
+rule_files:
+  - alerts.yml
+{%- endif%}

@@ -1,0 +1,35 @@
+---
+- name: 创建 prometheus network
+  community.docker.docker_network:
+    name: "{{ prometheus_network_name }}"
+
+- name: 创建 Prometheus directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0777"
+  with_items:
+    - "{{ docker_compose_dir }}"
+    - "{{ prometheus_config_dir }}"
+    - "{{ prometheus_data_dir }}"
+
+- name: 将 docker-compose 文件拷贝到主机指定位置
+  ansible.builtin.template:
+    src: templates/docker-compose.yml.j2
+    dest: "{{ docker_compose_dir }}/prom-docker-compose.yml"
+
+- name: 配置 prometheus configuration
+  ansible.builtin.template:
+    src: templates/prometheus.yml.j2
+    dest: "{{ prometheus_config_dir }}/prometheus.yml"
+
+- name: 配置 prometheus alert rules
+  ansible.builtin.template:
+    src: templates/alerts.yml.j2
+    dest: "{{ prometheus_config_dir }}/alerts.yml"
+  when: prometheus_alertmanager_configs != ""
+
+- name: docker 启动 prometheus
+  ansible.builtin.shell:
+    cmd: docker-compose -f {{ docker_compose_dir }}/prom-docker-compose.yml up -d
+  register: docker_compose_results
