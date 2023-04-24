@@ -1,9 +1,9 @@
 ---
-- name: 创建 prometheus network
+- name: 创建 prometheus 网络
   community.docker.docker_network:
     name: "{{ prometheus_network_name }}"
 
-- name: Create blackbox_exporter directories
+- name: 创建 blackbox_exporter 目录
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
@@ -15,9 +15,9 @@
 - name: 将 docker-compose 文件拷贝到主机指定位置
   ansible.builtin.template:
     src: templates/docker-compose.yml.j2
-    dest: "{{ docker_compose_dir }}/blabbox-docker-compose.yml"
+    dest: "{{ docker_compose_dir }}/blackbox-docker-compose.yml"
 
-- name: 配置 blackbox exporter configuration
+- name: 配置 blackbox exporter 
   ansible.builtin.template:
     src: templates/blackbox.yml.j2
     dest: "{{ blackbox_exporter_config_dir }}/blackbox.yml"
@@ -25,4 +25,3 @@
 - name: docker 启动 blackbox_exporter
   ansible.builtin.shell:
     cmd: docker-compose -f {{ docker_compose_dir }}/blackbox-docker-compose.yml up -d
-  register: docker-compose-results

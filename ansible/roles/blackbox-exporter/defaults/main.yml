@@ -1,13 +1,14 @@
 ---
-# docker-compose configuration
+# docker-compose 配置
 prometheus_network_name: prometheus
 docker_compose_dir: /opt/prometheus 
 
 # blackbox exporter 配置
 blackbox_exporter_config_dir: /opt/prometheus/config/blackbox-export
 blackbox_web_listen_address: ""
+blackbox_exporter_version: latest
 
-# blackbox exporter modules configuration
+# blackbox exporter modules 配置
 blackbox_exporter_configuration_modules:
   http_2xx:
     prober: http

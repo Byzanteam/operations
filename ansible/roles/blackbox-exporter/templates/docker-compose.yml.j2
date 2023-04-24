@@ -3,7 +3,7 @@ version: '3'
 services:
   blackbox_exporter:
     container_name: blackbox_exporter
-    image: quay.io/prometheus/blackbox-exporter:latest
+    image: quay.io/prometheus/blackbox-exporter:{{ blackbox_exporter_version}}
     networks:
       - "{{ prometheus_network_name }}"
     command: --config.file=/config/blackbox.yml

@@ -2,7 +2,7 @@ version: '3'
 
 services:
   prometheus:
-    image: prom/prometheus
+    image: prom/prometheus:{{ prometheus_version }}
     container_name: prometheus
     networks:
       - "{{ prometheus_network_name }}"

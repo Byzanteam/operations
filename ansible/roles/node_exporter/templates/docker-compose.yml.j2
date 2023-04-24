@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  node_exporter:
+    image: quay.io/prometheus/node-exporter:{{ node_exporter_version }}
+    container_name: prometheus
+    networks:
+      - "{{ prometheus_network_name }}"
+    volumes:
+      - '/:/host:ro,rslave'
+    command:
+      - "--path.rootfs=/host"
+    restart: unless-stopped
+    {%- if node_exporter_web_listen_address %}
+    ports:
+      - "{{ node_exporter_web_listen_address}}:9090"
+    {%- endif %}
+
+networks:
+  prometheus:
+    name: "{{ prometheus_network_name }}"
+    external: true

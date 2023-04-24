@@ -1,20 +1,21 @@
 ---
-# docker-compose configuration
+# docker-compose 配置
 prometheus_network_name: prometheus
 docker_compose_dir: /opt/prometheus 
 
-# prometheus in docker comfile configuration
+# docker compose 中 prometheus 配置
 prometheus_web_listen_address: ""
+prometheus_version: latest
 prometheus_storage_retention: "30d"
 # [EXPERIMENTAL] Maximum number of bytes that can be stored for blocks. Units
 # supported: KB, MB, GB, TB, PB.
 prometheus_storage_retention_size: "1GB"
 
-# prometheus config and data dir
+# prometheus config and data 目录
 prometheus_config_dir: /opt/prometheus/config/prometheus
 prometheus_data_dir: /opt/prometheus/data/prometheus
 
-# prometheus scrape_configs
+# prometheus scrape_configs 相关配置
 prometheus_scrape_configs:
   - job_name: "prometheus"
     metrics_path: "/metrics"
@@ -22,14 +23,14 @@ prometheus_scrape_configs:
       - targets:
           - "{{ ansible_fqdn | default(ansible_host) | default('localhost') }}:9090"
 
-# prometheus alertmanager configs
+# prometheus alertmanager 相关配置
 prometheus_alertmanager_configs: ""
 #   alertmanagers:
 #     - static_configs:
 #       - targets:
 #         - alertmanager:9093
 
-# prometheus alert rules
+# prometheus alert rules 相关配置
 prometheus_alert_rules: []
 # - name: example rules
 #   rules:
