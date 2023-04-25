@@ -6,6 +6,8 @@ services:
     container_name: prometheus
     networks:
       - "{{ prometheus_network_name }}"
+    environment:
+      - TZ=Asia/Shanghai
     volumes:
       - {{ prometheus_config_dir}}/prometheus.yml:/etc/prometheus/prometheus.yml
       - {{ prometheus_config_dir}}/alerts.yml:/etc/prometheus/alerts.yml

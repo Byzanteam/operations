@@ -1,0 +1,6 @@
+warn_list:
+  - no-changed-when  # Commands should not change things if nothing needs doing.
+  - risky-file-permissions
+skip_list:
+  - command-instead-of-shell  # Use shell only when shell functionality is required.
+  - name[missing]  # Rule for checking task and play names.

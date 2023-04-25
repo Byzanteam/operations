@@ -28,6 +28,6 @@
     src: templates/prometheus-alert.conf.j2
     dest: "{{ prometheus_alert_config_dir }}/app.conf"
 
-- name: docker 启动 alertmanager
-  ansible.builtin.shell:
+- name: Docker 启动 alertmanager
+  ansible.builtin.command:
     cmd: docker-compose -f {{ docker_compose_dir }}/alert-docker-compose.yml up -d

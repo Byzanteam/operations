@@ -15,15 +15,14 @@
 
 - name: Copy the grafana configuration files
   ansible.posix.synchronize:
-  # ansible.builtin.copy:
     src: files/grafana/
-    dest: "{{ grafana_config_dir}}"
+    dest: "{{ grafana_config_dir }}"
 
 - name: 将 docker-compose 文件拷贝到主机指定位置
   ansible.builtin.template:
     src: templates/docker-compose.yml.j2
     dest: "{{ docker_compose_dir }}/grafana-docker-compose.yml"
 
-- name: docker 启动 grafana
-  ansible.builtin.shell:
+- name: Docker 启动 grafana
+  ansible.builtin.command:
     cmd: docker-compose -f {{ docker_compose_dir }}/grafana-docker-compose.yml up -d

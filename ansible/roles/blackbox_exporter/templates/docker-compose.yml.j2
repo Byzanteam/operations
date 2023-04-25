@@ -6,6 +6,8 @@ services:
     image: quay.io/prometheus/blackbox-exporter:{{ blackbox_exporter_version}}
     networks:
       - "{{ prometheus_network_name }}"
+    environment:
+      - TZ=Asia/Shanghai
     command: --config.file=/config/blackbox.yml
     volumes:
       - {{ blackbox_exporter_config_dir }}:/config

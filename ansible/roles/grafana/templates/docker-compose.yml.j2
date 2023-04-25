@@ -6,6 +6,8 @@ services:
     container_name: grafana
     networks:
       - "{{ prometheus_network_name }}"
+    environment:
+      - TZ=Asia/Shanghai
     ports:
       - "{{ grafana_host }}:{{ grafana_port }}:3000"
     volumes:

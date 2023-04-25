@@ -18,6 +18,8 @@ services:
     image: prom/alertmanager:{{ alertmanager_version }}
     networks:
       - "{{ prometheus_network_name }}"
+    environment:
+      - TZ=Asia/Shanghai
     restart: on-failure:1
     command:
       - "--config.file=/etc/alertmanager/alertmanager.yml"

@@ -3,14 +3,14 @@
   ansible.builtin.shell:
     argv:
       - PATH=/usr/bin:/usr/local/bin:/usr/sbin:/usr/local/sbin
-      - command 
-      - -v 
+      - command
+      - -v
       - docker-compose
   register: env_runtime
   ignore_errors: true
 
-- include_tasks: docker-deploy.yml
+- ansible.builtin.include_tasks: docker-deploy.yml
   when: env_runtime is succeeded
 
-- include_tasks: k8s-deploy.yml
+- ansible.builtin.include_tasks: k8s-deploy.yml
   when: env_runtime is failed

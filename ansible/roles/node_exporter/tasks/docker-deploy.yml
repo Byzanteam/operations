@@ -16,6 +16,6 @@
     src: templates/docker-compose.yml.j2
     dest: "{{ docker_compose_dir }}/node-exporter-docker-compose.yml"
 
-- name: docker 启动
-  ansible.builtin.shell:
+- name: Docker 启动
+  ansible.builtin.command:
     cmd: docker-compose -f {{ docker_compose_dir }}/node-exporter-docker-compose.yml up -d

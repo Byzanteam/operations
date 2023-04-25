@@ -1,7 +1,7 @@
 ---
 # docker-compose 相关配置
 prometheus_network_name: prometheus
-docker_compose_dir: /opt/prometheus 
+docker_compose_dir: /opt/prometheus
 
 # docker compose 中 alertmanager 配置
 alertmanager_web_listen_address: ""
