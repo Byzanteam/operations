@@ -13,7 +13,7 @@ services:
     command:
       - "--path.rootfs=/host"
     restart: unless-stopped
-    {%- if node_exporter_web_listen_address %}
+    {% if node_exporter_web_listen_address -%}
     ports:
       - "{{ node_exporter_web_listen_address}}:9100"
     {%- endif %}

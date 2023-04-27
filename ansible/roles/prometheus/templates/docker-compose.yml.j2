@@ -18,7 +18,7 @@ services:
       - "--web.enable-lifecycle"
       - "--storage.tsdb.retention.time={{ prometheus_storage_retention }}"
       - "--storage.tsdb.retention.size={{ prometheus_storage_retention_size }}"
-    {%- if prometheus_web_listen_address %}
+    {% if prometheus_web_listen_address -%}
     ports:
       - "{{ prometheus_web_listen_address}}:9090"
     {%- endif %}

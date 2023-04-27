@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  cAdvisor:
+    image: google/cadvisor:{{ cAdvisor_version }}
+    container_name: cAdvisor
+    networks:
+      - "{{ prometheus_network_name }}"
+    environment:
+      - TZ=Asia/Shanghai
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /dev/disk/:/dev/disk:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    {% if cAdvisor_command -%}
+    command:
+      {{ cAdvisor_command | to_nice_yaml(indent=6,sort_keys=False) | indent(6,False) }}
+    {%- endif %}
+    restart: unless-stopped
+    {% if cAdvisor_web_listen_address -%}
+    ports:
+      - "{{ cAdvisor_web_listen_address}}:8080"
+    {%- endif %}
+
+networks:
+  prometheus:
+    name: "{{ prometheus_network_name }}"
+    external: true

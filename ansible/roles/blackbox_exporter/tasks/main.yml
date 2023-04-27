@@ -9,8 +9,10 @@
   register: env_runtime
   ignore_errors: true
 
-- ansible.builtin.include_tasks: docker-deploy.yml
+- name: Docker 环境部署
+  ansible.builtin.include_tasks: docker-deploy.yml
   when: env_runtime is succeeded
 
-- ansible.builtin.include_tasks: k8s-deploy.yml
+- name: K8s 环境部署
+  ansible.builtin.include_tasks: k8s-deploy.yml
   when: env_runtime is failed

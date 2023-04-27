@@ -1,0 +1,15 @@
+---
+# docker-compose 配置
+prometheus_network_name: prometheus
+docker_compose_dir: /opt/prometheus
+
+# docker compose 中 cAdvisor 配置
+cadvisor_web_listen_address: ""
+cadvisor_version: latest
+# 一些性能优化配置
+cadvisor_command: []
+  # - "--disable_metrics=udp,tcp,percpu,sched"
+  # - "--storage_duration=15s"
+  # - "--docker_only=true"
+  # - "--housekeeping_interval=30s"
+  # - "--disable_metrics=disk"

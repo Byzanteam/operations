@@ -6,8 +6,6 @@ services:
     container_name: grafana
     networks:
       - "{{ prometheus_network_name }}"
-    environment:
-      - TZ=Asia/Shanghai
     ports:
       - "{{ grafana_host }}:{{ grafana_port }}:3000"
     volumes:
@@ -16,6 +14,7 @@ services:
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=WW5sNllXNTBaV0Z0Q2c9PQo=
       - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
+      - TZ=Asia/Shanghai
     restart: always
 
 networks:

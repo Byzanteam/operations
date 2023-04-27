@@ -16,11 +16,13 @@
   ansible.builtin.template:
     src: templates/docker-compose.yml.j2
     dest: "{{ docker_compose_dir }}/blackbox-docker-compose.yml"
+    mode: "0644"
 
 - name: 配置 blackbox exporter
   ansible.builtin.template:
     src: templates/blackbox.yml.j2
     dest: "{{ blackbox_exporter_config_dir }}/blackbox.yml"
+    mode: "0644"
 
 - name: Docker 启动 blackbox_exporter
   ansible.builtin.command:

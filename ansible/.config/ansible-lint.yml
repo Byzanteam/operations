@@ -3,4 +3,3 @@ warn_list:
   - risky-file-permissions
 skip_list:
   - command-instead-of-shell  # Use shell only when shell functionality is required.
-  - name[missing]  # Rule for checking task and play names.

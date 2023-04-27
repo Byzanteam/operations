@@ -17,16 +17,19 @@
   ansible.builtin.template:
     src: templates/docker-compose.yml.j2
     dest: "{{ docker_compose_dir }}/alert-docker-compose.yml"
+    mode: "0644"
 
 - name: 配置 alertmanager
   ansible.builtin.template:
     src: templates/alertmanager.yml.j2
     dest: "{{ alertmanager_config_dir }}/alertmanager.yml"
+    mode: "0644"
 
 - name: 配置 prometheus alert
   ansible.builtin.template:
     src: templates/prometheus-alert.conf.j2
     dest: "{{ prometheus_alert_config_dir }}/app.conf"
+    mode: "0644"
 
 - name: Docker 启动 alertmanager
   ansible.builtin.command:
