@@ -8,7 +8,7 @@ services:
       - "{{ prometheus_network_name }}"
     volumes:
       - {{ prometheus_alert_config_dir }}/app.conf:/app/conf/app.conf
-    {%- if prometheus_alert_listen_address %}
+    {% if prometheus_alert_listen_address -%}
     ports:
       - "{{ prometheus_alert_listen_address}}:8080"
     {%- endif %}
@@ -25,7 +25,7 @@ services:
       - "--config.file=/etc/alertmanager/alertmanager.yml"
     volumes:
       - {{ alertmanager_config_dir }}:/etc/alertmanager/
-    {%- if alertmanager_web_listen_address %}
+    {% if alertmanager_web_listen_address -%}
     ports:
       - "{{ alertmanager_web_listen_address}}:9093"
     {%- endif %}

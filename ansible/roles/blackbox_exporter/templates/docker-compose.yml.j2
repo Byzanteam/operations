@@ -12,7 +12,7 @@ services:
     volumes:
       - {{ blackbox_exporter_config_dir }}:/config
     restart: on-failure:1
-    {%- if blackbox_web_listen_address %}
+    {% if blackbox_web_listen_address -%}
     ports:
       - "{{ blackbox_web_listen_address}}:9115"
     {%- endif %}
