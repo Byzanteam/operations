@@ -13,6 +13,10 @@ prometheus_alert_config_dir: /opt/prometheus/config/prometheus-alert
 prometheus_alert_listen_address: ""
 prometheus_alert_version: latest
 
+# alertmanager global 设置
+alertmanager_global:
+  resolve_timeout: 5m
+
 # alertmanager 警报抑制配置
 alertmanager_inhibit_rules: ""
 
