@@ -1,0 +1,36 @@
+---
+# docker-compose 相关配置
+prometheus_network_name: prometheus
+docker_compose_dir: /opt/prometheus
+
+# docker compose 中 alertmanager 配置
+alertmanager_web_listen_address: ""
+alertmanager_config_dir: /opt/prometheus/config/alertmanager
+alertmanager_version: latest
+
+# 配置 prometheus-alert
+prometheus_alert_config_dir: /opt/prometheus/config/prometheus-alert
+prometheus_alert_listen_address: ""
+prometheus_alert_version: latest
+
+# alertmanager global 设置
+alertmanager_global:
+  resolve_timeout: 5m
+
+# alertmanager 警报抑制配置
+alertmanager_inhibit_rules: ""
+
+# alertmanager 警报路由配置
+alertmanager_route:
+  group_by: ['alertname']
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 1h
+  receiver: webhook
+
+# alertmanager 发送通知配置
+alertmanager_receivers:
+  - name: webhook
+    webhook_configs:
+      - url: 'https://webhook.example'
+        send_resolved: true

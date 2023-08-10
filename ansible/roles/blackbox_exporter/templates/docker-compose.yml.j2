@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  blackbox_exporter:
+    container_name: blackbox_exporter
+    image: quay.io/prometheus/blackbox-exporter:{{ blackbox_exporter_version}}
+    networks:
+      - "{{ prometheus_network_name }}"
+    environment:
+      - TZ=Asia/Shanghai
+    command: --config.file=/config/blackbox.yml
+    volumes:
+      - {{ blackbox_exporter_config_dir }}:/config
+    restart: on-failure:1
+    {% if blackbox_web_listen_address -%}
+    ports:
+      - "{{ blackbox_web_listen_address}}:9115"
+    {%- endif %}
+
+networks:
+  prometheus:
+    name: "{{ prometheus_network_name }}"
+    external: true

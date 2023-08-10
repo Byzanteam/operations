@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  grafana:
+    image: grafana/grafana:{{ grafana_version }}
+    container_name: grafana
+    networks:
+      - "{{ prometheus_network_name }}"
+    ports:
+      - "{{ grafana_host }}:{{ grafana_port }}:3000"
+    volumes:
+      - {{ grafana_data_dir }}:/var/lib/grafana/
+      - {{ grafana_config_dir }}:/etc/grafana/
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=WW5sNllXNTBaV0Z0Q2c9PQo=
+      - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
+      - TZ=Asia/Shanghai
+    restart: always
+
+networks:
+  prometheus:
+    name: "{{ prometheus_network_name }}"
+    external: true

@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  node_exporter:
+    image: prom/node-exporter:{{ node_exporter_version }}
+    container_name: node-exporter
+    networks:
+      - "{{ prometheus_network_name }}"
+    environment:
+      - TZ=Asia/Shanghai
+    volumes:
+      - '/:/host:ro,rslave'
+    command:
+      - "--path.rootfs=/host"
+    restart: unless-stopped
+    {% if node_exporter_web_listen_address -%}
+    ports:
+      - "{{ node_exporter_web_listen_address}}:9100"
+    {%- endif %}
+
+networks:
+  prometheus:
+    name: "{{ prometheus_network_name }}"
+    external: true

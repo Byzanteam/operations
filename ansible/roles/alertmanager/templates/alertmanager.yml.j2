@@ -1,0 +1,15 @@
+global:
+  {{ alertmanager_global  | to_nice_yaml(indent=2) | indent(2, False) }}
+
+{% if alertmanager_inhibit_rules | length %}
+inhibit_rules:
+{{ alertmanager_inhibit_rules | to_nice_yaml(indent=2) }}
+{% endif %}
+
+route:
+  {{ alertmanager_route | to_nice_yaml(indent=2) | indent(2, False) }}
+
+{% if alertmanager_receivers | length %}
+receivers:
+{{ alertmanager_receivers | to_nice_yaml(indent=2) }}
+{% endif %}

@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  prometheus:
+    image: prom/prometheus:{{ prometheus_version }}
+    container_name: prometheus
+    networks:
+      - "{{ prometheus_network_name }}"
+    environment:
+      - TZ=Asia/Shanghai
+    volumes:
+      - {{ prometheus_config_dir}}/prometheus.yml:/etc/prometheus/prometheus.yml
+      - {{ prometheus_config_dir}}/alerts.yml:/etc/prometheus/alerts.yml
+      - {{ prometheus_data_dir}}:/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--web.enable-lifecycle"
+      - "--storage.tsdb.retention.time={{ prometheus_storage_retention }}"
+      - "--storage.tsdb.retention.size={{ prometheus_storage_retention_size }}"
+    {% if prometheus_web_listen_address -%}
+    ports:
+      - "{{ prometheus_web_listen_address}}:9090"
+    {%- endif %}
+
+networks:
+  prometheus:
+    name: "{{ prometheus_network_name }}"
+    external: true

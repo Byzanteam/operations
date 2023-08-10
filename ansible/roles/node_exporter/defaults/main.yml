@@ -1,0 +1,8 @@
+---
+# docker-compose 配置
+prometheus_network_name: prometheus
+docker_compose_dir: /opt/prometheus
+
+# docker compose 中 node export 配置
+node_exporter_web_listen_address: ""
+node_exporter_version: latest
