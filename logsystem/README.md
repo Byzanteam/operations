@@ -8,11 +8,13 @@ Requirements
 
 1. Set your inventory directory
 
-   1. inventory
-      ├── sample
-      │   ├── group_vars
-      │   │   └── logsystem.yml
-      │   └── inventory.ini
+   ```bash
+   inventory
+   ├── sample
+   │   ├── group_vars
+   │   │   └── logsystem.yml
+   │   └── inventory.ini
+   ```
 
 2. Edit `inventory.ini`
 
