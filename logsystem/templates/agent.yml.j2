@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+  vector:
+    container_name: 'vector'
+    image: timberio/vector:0.36.0-alpine
+    volumes:
+      - ./vector.yaml:/etc/vector/vector.yaml
+      {% for arg in vector_persisting_volumes %}
+			- "{{ arg }}"
+			{% endfor %}

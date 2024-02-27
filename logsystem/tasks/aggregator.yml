@@ -1,0 +1,21 @@
+---
+- name: 将 docker-compose 文件拷贝到主机指定位置
+  ansible.builtin.template:
+    src: templates/aggregator.yml.j2
+    dest: "{{ log_system_path }}/docker-compose.yml"
+
+- name: 配置 vector
+  ansible.builtin.template:
+    src: templates/vector.yaml.j2
+    dest: "{{ log_system_path }}/vector.yaml"
+
+- name: 配置 loki
+  ansible.builtin.template:
+    src: template/loki.yaml.j2
+    dest: "{{ log_system_path }}/loki.yaml"
+
+- name: Copy the grafana configuration files
+  ansible.builtin.copy:
+    src: files/ds.yaml
+    dest: "{{ log_system_path }}/ds.yaml"
+

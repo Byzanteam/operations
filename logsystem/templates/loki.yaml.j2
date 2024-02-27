@@ -1,0 +1,30 @@
+auth_enabled: false
+
+server:
+  http_listen_port: {{ loki_server_port }}
+
+common:
+  path_prefix: /loki
+  storage:
+    filesystem:
+      chunks_directory: /loki/chunks
+      rules_directory: /loki/rules
+  replication_factor: 1
+  ring:
+    kvstore:
+      store: inmemory
+
+schema_config:
+  configs:
+    - from: 2020-10-24
+      store: boltdb-shipper
+      object_store: filesystem
+      schema: v11
+      index:
+        prefix: index_
+        period: 24h
+
+table_manager:
+  retention_deletes_enabled: {{ loki_table_manager.retention_deletes_enabled }}
+  retention_period: {{ loki_table_manager.retention_period }}
+

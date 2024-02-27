@@ -1,0 +1,67 @@
+---
+# log system 目录
+log_system_path: /opt/logsystem
+
+# 是否是agent 角色
+is_agent: "{{ inventory_hostname in groups['agent'] }}"
+
+# vector 配置
+# vector 持久卷挂载
+vector_persisting_volumes:
+  - /var/run/docker.sock:/var/run/docker.sock:ro
+  - /var/log/audit:/var/log/audit
+
+# vector 是否启用 api
+vector_api_enabled: true
+
+vector_sources_configs:
+  generate_syslog:
+    type:   "demo_logs"
+    format: "syslog"
+    count:  100
+
+vector_transforms_configs: ""
+#   remap_sys_logs:
+#     inputs:
+#       - "generate_syslog"
+#     type: "remap"
+#     source: |
+#       . |= parse_syslog!(.message)
+
+vector_sinks_configs:
+  emit_syslog:
+    inputs:
+      - generate_syslog
+    type: "console"
+    encoding:
+      codec: "json"
+
+# loki 配置
+# loki 监听端口
+loki_server_port: 3100
+
+loki_table_manager:
+  retention_deletes_enabled: true
+  retention_period: 180d
+
+loki_labels:
+  - "traefik.http.routers.loki-web.middlewares=loki-auth"
+  - "traefik.http.routers.loki-web.rule=Host(`{{ ip | default(fallback_ips[inventory_hostname]) }}`)"
+  - "traefik.http.routers.loki-web.entrypoints=loki"
+  - "traefik.http.middlewares.loki-auth.basicauth.users=vector:$$2y$$05$$qV/mKSdg.II/PURH.MZGhePu/77rUbo3ika/0bSBfnplrPRKIkb1O"
+
+# traefik 配置
+traefik_additional_arguments:
+  - --entrypoints.loki.address=:3100/tcp
+  - --providers.file.directory=/tmp/conf
+  - --providers.file.watch=true
+  - --log.filePath=/tmp/traefik.log
+  - --accesslog=true
+  - --accesslog.filepath=/tmp/access.log
+
+traefik_prots:
+  - "3100:3100"
+
+grafana_labels:
+  - "traefik.http.routers.grafana-web.rule=Host(`{{ ip | default(fallback_ips[inventory_hostname]) }}`)"
+  - "traefik.http.routers.grafana-web.entrypoints=web"

@@ -1,0 +1,24 @@
+---
+- name: 检查当前环境是否安装 docker-compose
+  ansible.builtin.shell:
+    argv:
+      - PATH=/usr/bin:/usr/local/bin:/usr/sbin:/usr/local/sbin
+      - command
+      - -v
+      - docker-compose
+
+- name: 创建 log system 目录
+  ansible.builtin.file:
+    path: "{{ log_system_path }}"
+    state: directory
+    mode: "0750"
+
+- ansible.builtin.include_tasks: agent.yml
+  when: is_agent
+
+- ansible.builtin.include_tasks: aggregator.yml
+  when: not is_agent
+
+- name: Docker 启动 log system
+  ansible.builtin.command:
+    cmd: docker-compose -f {{ log_system_path }}/docker-compose.yml up -d

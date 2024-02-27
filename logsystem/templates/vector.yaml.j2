@@ -1,0 +1,17 @@
+api:
+  enabled: {{ vector_api_enabled }}
+
+{%- if vector_sources_configs %}
+sources:
+  {{ vector_sources_configs | to_nice_yaml(indent=2,sort_keys=False) | indent(2,False) }}
+{%- endif %}
+
+{%- if vector_transforms_configs %}
+transforms:
+  {{ vector_transforms_configs | to_nice_yaml(indent=2,sort_keys=False) | indent(2,False) }}
+{%- endif %}
+
+{%- if vector_sinks_configs %}
+sinks:
+  {{ vector_transforms_configs | to_nice_yaml(indent=2,sort_keys=False) | indent(2,False) }}
+{%- endif %}
