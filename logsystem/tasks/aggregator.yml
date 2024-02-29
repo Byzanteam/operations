@@ -11,7 +11,7 @@
 
 - name: 配置 loki
   ansible.builtin.template:
-    src: template/loki.yaml.j2
+    src: templates/loki.yaml.j2
     dest: "{{ log_system_path }}/loki.yaml"
 
 - name: Copy the grafana configuration files
