@@ -16,13 +16,15 @@ services:
       - --entrypoints.websecure.address=:443/tcp
       - --entryPoints.web.forwardedHeaders.insecure
       - --entryPoints.websecure.forwardedHeaders.insecure
-      {% for arg in traefik_additional_arguments %}
-			- "{{ arg }}"
-			{% endfor %}
-    ports:
-      {% for arg in traefik_prots %}
+      {% for arg in traefik_additional_arguments -%}
       - "{{ arg }}"
-			{% endfor %}
+      {% endfor %}
+
+    ports:
+      {% for arg in traefik_prots -%}
+      - "{{ arg }}"
+      {% endfor %}
+
     environment:
       - TZ=Asia/Shanghai
     volumes:
@@ -46,9 +48,9 @@ services:
     networks:
       - loki
     labels:
-		  {% for arg in loki_labels %}
-			- "{{ arg }}"
-			{% endfor %}
+      {% for arg in loki_labels -%}
+      - "{{ arg }}"
+      {% endfor %}
 
   grafana:
     container_name: grafana
@@ -65,13 +67,13 @@ services:
       - /run.sh
     volumes:
       - .data/grafana/:/var/lib/grafana/
-			- ./ds.yaml:/etc/grafana/provisioning/ds.yaml
+      - ./ds.yaml:/etc/grafana/provisioning/ds.yaml
     networks:
       - loki
     labels:
-		  {% for arg in grafana_labels%}
-			- "{{ arg }}"
-			{% endfor %}
+      {% for arg in grafana_labels -%}
+      - "{{ arg }}"
+      {% endfor %}
 
   vector:
     container_name: 'vector'
@@ -80,9 +82,10 @@ services:
     image: timberio/vector:0.36.0-alpine
     volumes:
       - ./vector.yaml:/etc/vector/vector.yaml
-      {% for arg in vector_persisting_volumes %}
-			- "{{ arg }}"
-			{% endfor %}
+      {% for arg in vector_persisting_volumes -%}
+      - "{{ arg }}"
+      {% endfor %}
+
     networks:
       - loki
 

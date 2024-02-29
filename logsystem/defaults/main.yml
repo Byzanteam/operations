@@ -46,7 +46,7 @@ loki_table_manager:
 
 loki_labels:
   - "traefik.http.routers.loki-web.middlewares=loki-auth"
-  - "traefik.http.routers.loki-web.rule=Host(`{{ ansible_default_ipv4['address'] }}`)"
+  - "traefik.http.routers.loki-web.rule=Host(`{{ ip | default(fallback_ips[inventory_hostname]) }}`)"
   - "traefik.http.routers.loki-web.entrypoints=loki"
   - "traefik.http.middlewares.loki-auth.basicauth.users=vector:$$2y$$05$$qV/mKSdg.II/PURH.MZGhePu/77rUbo3ika/0bSBfnplrPRKIkb1O"
 
@@ -63,5 +63,5 @@ traefik_prots:
   - "3100:3100"
 
 grafana_labels:
-  - "traefik.http.routers.grafana-web.rule=Host(`{{ ansible_default_ipv4['address'] }}`)"
+  - "traefik.http.routers.grafana-web.rule=Host(`{{ ip | default(fallback_ips[inventory_hostname]) }}`)"
   - "traefik.http.routers.grafana-web.entrypoints=web"
