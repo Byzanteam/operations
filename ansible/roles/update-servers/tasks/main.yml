@@ -1,0 +1,29 @@
+---
+  - name: Send system-auth template to remote server
+    template:
+      src: system_auth_template.j2
+      dest: /etc/pam.d/system-auth
+      backup:  yes
+
+  - name:  Send login.defs template to remote server
+    template:
+      src:  login.defs_template.j2 
+      dest: /etc/login.defs
+      backup:  yes
+
+  - name:  Send sshd template to remote server
+    template:
+      src:  sshd_template.j2
+      dest: /etc/pam.d/sshd
+      backup:  yes
+
+  - name:  Send  profile  template to remote server
+    template:
+      src: profile_template.j2
+      dest: /etc/profile
+      backup:  yes
+
+  - name: Reload sshd service
+    service:
+      name: sshd
+      state: reloaded
