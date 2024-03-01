@@ -1,0 +1,47 @@
+---
+  - name:  Add system admin
+    user: 
+      name:  sysadm
+      home:  /home/sysadm
+      password:  "{{ sysadm_pass }}"
+
+  - name:  Add audit  admin
+    user:
+      name:  auditadm
+      home:  /home/auditadm
+      password:  "{{ audit_adm_pass }}"
+
+  - name:  Add security admin
+    user:
+      name:  secadm
+      home:  /home/secadm
+      password:  "{{ secadm_pass }}"
+
+  - name:  Modify the user permission configuration
+    replace:
+      path:  /etc/sudoers
+      regexp:   "{{ item.regexp }}"
+      replace: "{{ item.replace }}"
+    loop:
+      - { regexp: '^# (Cmnd_Alias SERVICES.*)$', replace: '\1'}
+      - { regexp: '^# (Cmnd_Alias STORAGE.*)$', replace:  '\1' }
+      - { regexp: '^# (Cmnd_Alias DELEGATING.*)$', replace:  '\1'}
+      - { regexp: '^# (Cmnd_Alias PROCESSES.*)$', replace:  '\1' }
+      - { regexp: '^# (Cmnd_Alias NETWORKING.*)$', replace:  '\1' }
+      - { regexp: '^# (Cmnd_Alias SOFTWARE.*)$', replace:  '\1'}
+ 
+  - name:  Add user permission
+    lineinfile:
+      path:  /etc/sudoers
+      regexp:   "{{ item.regexp }}"
+      line: "{{ item.line }}"
+      backup:  yes
+    loop:
+      - { regexp: '^sysadm', line: 'sysadm ALL=(root) SOFTWARE,SERVICES,STORAGE'}
+      - { regexp: '^secadm', line: 'secadm ALL=(root) DELEGATING,PROCESSES,NETWORKING'}
+      - { regexp: '^auditadm', line: 'auditadm  ALL=(root) NOPASSWD:/usr/sbin/aureport,NOPASSWD:/usr/sbin/autrace,NOPASSWD:/usr/sbin/ausearch,NOPASSWD:/usr/sbin/audispd,NOPASSWD:/usr/sbin/auditctl' }
+
+     # become: yes  
+     # - { regexp: '^auditadmin', line: 'auditadmin     ALL = (root) NOPASSWD: /usr/bin/cat , /usr/bin/less , /usr/bin/more , /usr/bin/tail , /usr/bin/head'}
+
+
