@@ -1,0 +1,36 @@
+listen_addresses = '*'
+
+ssl = on				                        # (change requires restart)
+ssl_cert_file = 'server.crt' 					# (change requires restart)
+ssl_key_file = 'server.key'		                        # (change requires restart)
+
+dynamic_shared_memory_type = posix	                        # the default is the first option
+
+shared_preload_libraries = 'pg_stat_statements, passwordcheck,auth_delay'		# (change requires restart)
+
+log_destination = 'csvlog'		                # Valid values are combinations of
+logging_collector = on		                        # Enable capturing of stderr and csvlog
+log_directory = '/var/log/postgresql/log'		# directory where log files are written,
+log_filename = 'postgresql-%Y-%m-%d_%H%M%S.log'	# log file name pattern,
+log_file_mode = 0600			        # creation mode for log files,
+log_truncate_on_rotation = on   	        # If on, an existing log file with the
+log_rotation_age = 1d			        # Automatic rotation of logfiles will
+log_rotation_size = 1GB		                # Automatic rotation of logfiles will
+log_min_messages = info 	                # values in order of decreasing detail:
+log_connections = on
+log_disconnections = on
+log_statement = 'mod'			        # none, ddl, mod, all
+log_timezone = 'PRC'
+
+datestyle = 'iso, mdy'
+timezone = 'PRC'
+
+lc_messages = 'en_US.utf8'			# locale for system error message
+lc_monetary = 'en_US.utf8'			# locale for monetary formatting
+lc_numeric = 'en_US.utf8'			# locale for number formatting
+lc_time = 'en_US.utf8'				# locale for time formatting
+
+default_text_search_config = 'pg_catalog.english'
+# idle_in_transaction_session_timeout=600000
+
+{{ postgresql_resource_set }}    

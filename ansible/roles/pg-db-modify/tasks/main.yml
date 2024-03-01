@@ -1,0 +1,18 @@
+---
+  - name: Modify postgresql conf
+    template:
+      src: postgresql.conf.j2 
+      dest:   "{{ pg_conf_file }}"
+      backup:  yes
+
+  - name:  Copy server.key to remote server
+    copy:
+      src: server.key
+      dest: "{{ ssl_cert_position  }}" 
+      backup:  yes
+
+  - name:  Copy server.crt to remote server
+    copy:
+      src: server.crt
+      dest: "{{ ssl_cert_position }}"
+      backup:  yes

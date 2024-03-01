@@ -1,0 +1,23 @@
+---
+  # postgresql 数据库配置文件路径
+  pg_conf_file:
+     /var/skylark-docker/data/postgresql/postgresql.conf
+
+  # ssl 证书存放路径 
+  ssl_cert_position:  /var/skylark-docker/data/postgresql/
+
+# postgresql 服务所需资源限制
+  postgresql_resource_set: |
+    max_connections = 1000
+    shared_buffers =  8GB
+    effective_cache_size = 12GB
+    maintenance_work_mem = 1GB
+    checkpoint_completion_target = 0.9
+    wal_buffers = 16MB
+    default_statistics_target = 100
+    random_page_cost = 1.1
+    effective_io_concurrency = 200
+    work_mem = 4MB
+    min_wal_size = 1GB
+    max_wal_size = 4GB
+    max_worker_processes = 16
