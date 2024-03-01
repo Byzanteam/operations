@@ -1,0 +1,91 @@
+version: "3"
+
+networks:
+  loki:
+
+services:
+  reverse-proxy:
+    image: traefik:v2.10
+    container_name: traefik
+    security_opt:
+      - no-new-privileges:true
+    command:
+      - --api.insecure=true
+      - --providers.docker
+      - --entrypoints.web.address=:80/tcp
+      - --entrypoints.websecure.address=:443/tcp
+      - --entryPoints.web.forwardedHeaders.insecure
+      - --entryPoints.websecure.forwardedHeaders.insecure
+      {% for arg in traefik_additional_arguments -%}
+      - "{{ arg }}"
+      {% endfor %}
+
+    ports:
+      {% for arg in traefik_prots -%}
+      - "{{ arg }}"
+      {% endfor %}
+
+    environment:
+      - TZ=Asia/Shanghai
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./.data/traefik:/tmp
+    restart: always
+    labels:
+      - "traefik.enable=true"
+    networks:
+      - loki
+
+  loki:
+    container_name: 'loki'
+    image: grafana/loki:2.9.4
+    expose:
+      - "{{ loki_server_port }}"
+    command: -config.file=/etc/loki/local-config.yaml
+    volumes:
+      - ./loki.yaml:/etc/loki/local-config.yaml
+      - ./.data/loki:/loki
+    networks:
+      - loki
+    labels:
+      {% for arg in loki_labels -%}
+      - "{{ arg }}"
+      {% endfor %}
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:latest-ubuntu
+    depends_on:
+      - loki
+    environment:
+        - GF_SECURITY_ADMIN_PASSWORD=WW5sNllXNTBaV0Z0Q2c9PQo=
+        - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
+        - TZ=Asia/Shanghai
+    entrypoint:
+      - sh
+      - -euc
+      - /run.sh
+    volumes:
+      - ./.data/grafana/:/var/lib/grafana/
+      - ./ds.yaml:/etc/grafana/provisioning/ds.yaml
+    networks:
+      - loki
+    labels:
+      {% for arg in grafana_labels -%}
+      - "{{ arg }}"
+      {% endfor %}
+
+  vector:
+    container_name: 'vector'
+    depends_on:
+      - loki
+    image: timberio/vector:0.36.0-alpine
+    volumes:
+      - ./vector.yaml:/etc/vector/vector.yaml
+      {% for arg in vector_persisting_volumes -%}
+      - "{{ arg }}"
+      {% endfor %}
+
+    networks:
+      - loki
+

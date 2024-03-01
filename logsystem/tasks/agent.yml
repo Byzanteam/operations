@@ -1,0 +1,10 @@
+---
+- name: 将 docker-compose 文件拷贝到主机指定位置
+  ansible.builtin.template:
+    src: templates/agent.yml.j2
+    dest: "{{ log_system_path }}/docker-compose.yml"
+
+- name: 配置 vector
+  ansible.builtin.template:
+    src: templates/vector.yaml.j2
+    dest: "{{ log_system_path }}/vector.yaml"
