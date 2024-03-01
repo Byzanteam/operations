@@ -33,4 +33,3 @@
   ansible.builtin.copy:
     src: files/ds.yaml
     dest: "{{ log_system_path }}/ds.yaml"
-

@@ -61,9 +61,18 @@ Role Variables
 Example Playbook
 ----------------
 
-    - hosts: servers
-      roles:
-         - logsystem
+```yaml
+---
+- name: 部署 aggregator
+  hosts: aggregator
+  roles:
+     - logsystem
+
+- name: 部署 agent
+  hosts: agent
+  roles:
+     - logsystem
+```
 
 Deployment topologies
 -----------------------

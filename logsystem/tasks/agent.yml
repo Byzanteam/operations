@@ -8,4 +8,3 @@
   ansible.builtin.template:
     src: templates/vector.yaml.j2
     dest: "{{ log_system_path }}/vector.yaml"
-

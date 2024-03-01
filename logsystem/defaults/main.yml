@@ -16,9 +16,9 @@ vector_api_enabled: true
 
 vector_sources_configs:
   generate_syslog:
-    type:   "demo_logs"
+    type: "demo_logs"
     format: "syslog"
-    count:  100
+    count: 100
 
 vector_transforms_configs: ""
 #   remap_sys_logs:
