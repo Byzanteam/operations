@@ -29,8 +29,8 @@ Role Variables
 --------------
 
 1.variable file
-- `separate-permissions/vars/main.yml`<br>
-     The variable file is encrypted by ansible-vault, When you execute the playbook, you need to use the --ask-vault-pass parameter and enter the file encryption password（encryption password：1234）
+- `separate-permissions/vars/main.yml`
+  - The variable file is encrypted by ansible-vault, When you execute the playbook, you need to use the --ask-vault-pass parameter and enter the file encryption password（encryption password：1234）
   
   ```bash
   #查看加密文件（需要输入文件的加密密码）
