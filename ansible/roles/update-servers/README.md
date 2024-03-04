@@ -1,10 +1,10 @@
 update servers config
 =========
-Modify servers password complexity.<br>
-Regular modification policies.<br>
-Implement login failure handling function.<br>
-Automatic exit after connection timeout.<br>
-Clear remaining information.
+- Modify servers password complexity.<br>
+- Regular modification policies.<br>
+- Implement login failure handling function.<br>
+- Automatic exit after connection timeout.<br>
+- Clear remaining information.
 
 Requirements
 --------------
