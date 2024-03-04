@@ -1,20 +1,49 @@
-Role Name
+update servers config
 =========
-Useing this role to modify server password complexity and regular modification policies.Implement login failure handling function and automatic exit after connection timeout,meantime，Clear remaining information.
+Modify servers password complexity.<br>
+Regular modification policies.<br>
+Implement login failure handling function.<br>
+Automatic exit after connection timeout.<br>
+Clear remaining information.
 
-
-Role Variables
+Requirements
 --------------
 
-No role variables involved
+1. Set your role directory
+   ```bash
+   update-servers
+   ├── tasks
+   │     └── main.yml
+   └── templates
+         ├── login.defs_template.j2
+         ├── profile_template.j2
+         ├── sshd_template.j2
+         └── system_auth_template.j2
+   ```
+
+  2. Set up host manifest file( The hosts file below )
+     ```bash
+     ansible
+      ├── hosts
+     ```
+
+     ```ini
+     [updateservers]
+     skylark.wuhou-cyzx.jet.worker
+     backend.wuhou-cyzx.jet.worker
+     kafka.wuhou-cyzx.jet.worker
+     ```
+
 
 Example Playbook
 ----------------
 
 An example of how to use your role：
-
- - name: A brief description of the character
-   hosts:  hostname or hostgroup
-   remote_user: username
-   roles:
-     - rolesname 
+```yml
+---
+  - name: 更新服务器配置
+    hosts:  updateservers
+    remote_user: root
+    roles:
+      - update-server
+```
